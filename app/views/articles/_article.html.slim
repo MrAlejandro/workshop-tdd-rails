@@ -1,0 +1,7 @@
+h2 = article.title
+= link_to t(".view"), article_path(article)
+br
+= link_to t(".edit"), edit_article_path(article)
+br
+= link_to t(".delete"), article_path(article), method: :delete, data: { cofirm: t(".confirm?") }
+hr
