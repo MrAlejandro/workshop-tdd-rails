@@ -2,7 +2,10 @@ div[class="article"]
   h2[class="article-title"] = article.title
   = link_to t(".view"), article_path(article), class: "view-article"
   br
-  = link_to t(".edit"), edit_article_path(article), class: "edit-article"
+  = link_to t(".edit"), edit_article_path(article), data: { test: "edit-article-#{article.id}" }
   br
-  = link_to t(".delete"), article_path(article), method: :delete, class: "delete-article", data: { cofirm: t(".confirm?") }
+  = link_to t(".delete"), article_path(article),
+                          method: :delete,
+                          class: "delete-article",
+                          data: { cofirm: t(".confirm?"), test: "delete-article-#{article.id}" }
   hr
