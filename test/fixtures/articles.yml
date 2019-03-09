@@ -1,11 +1,9 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  id: 1
   title: Dude?
   body: Where is my car?
 
 two:
-  id: 2
   title: Luke!
   body: I am your father!
