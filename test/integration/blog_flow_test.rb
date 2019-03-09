@@ -13,7 +13,7 @@ class BlogFlowTest < ActionDispatch::IntegrationTest
   end
 
   test "can update an article" do
-    article = Article.first
+    article = articles(:one)
     get edit_article_path(article)
     assert_response :success
 
@@ -24,12 +24,12 @@ class BlogFlowTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
 
-    updated_article = Article.first
+    updated_article = Article.find_by(id: article.id)
     assert_equal new_title, updated_article.title
   end
 
   test "can delete an article" do
-    article = Article.first
+    article = articles(:one)
     delete article_path(article)
 
     deleted_article = Article.find_by(id: article.id)
