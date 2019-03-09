@@ -24,7 +24,7 @@ class BlogFlowTest < ActionDispatch::IntegrationTest
     follow_redirect!
     assert_response :success
 
-    updated_article = Article.find_by(id: article.id)
+    updated_article = Article.find(article.id)
     assert_equal new_title, updated_article.title
   end
 

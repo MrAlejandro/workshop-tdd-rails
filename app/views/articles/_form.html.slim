@@ -1,2 +1,2 @@
-= f.input :title
-= f.input :body, as: :text
+= f.input :title, input_html: { data: { test: "article-title" } }
+= f.input :body, as: :text, input_html: { data: { test: "article-body" } }

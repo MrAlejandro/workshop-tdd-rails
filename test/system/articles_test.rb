@@ -1,38 +1,55 @@
-require "application_system_test_case"
+require 'application_system_test_case'
 
 class ArticlesTest < ApplicationSystemTestCase
-  test "create new article" do
-    visit articles_url
+  test 'create an article' do
+    title = 'Title'
+    body = 'Body'
+    create_article(title: title, body: body)
 
-    click_on "Create new article"
-
-    fill_in "Title", with: "My new article"
-    fill_in "Body", with: "My new article body"
-
-    click_on "Create Article"
-
-    assert_selector "h1", text: "My new article"
+    new_article = Article.find_by(title: title)
+    assert_equal(body, new_article.body)
   end
 
-  test "update an article" do
-    visit articles_url
+  test 'update an article' do
+    article = articles(:one)
+    body = 'New body'
+    update_article(article, body: 'New body')
 
-    first_article_edit_link = page.all('a.edit-article').first
-    first_article_edit_link.click
-
-    fill_in "Title", with: "My new updated title"
-
-    click_on "Update Article"
-
-    assert_selector "h1", text: "My new updated title"
+    article.reload
+    assert_equal(body, article.body)
   end
 
-  test "delete an article" do
+  test 'delete an article' do
+    article = articles(:one)
+    delete_article(article)
+
+    assert_equal(nil, Article.find_by(id: article.id))
+  end
+
+  def create_article(**attributes)
     visit articles_url
+    find('[data-test="create-new-article"]').click
 
-    first_article_delete_link = page.all('a.delete-article').first
-    first_article_delete_link.click
+    update_article_attributes(attributes)
+    find('[data-test="create-article"]').click
+  end
 
-    assert_selector "h2.article-title", text: articles(:one).title
+  def update_article(article, **attributes)
+    visit articles_url
+    find("[data-test=\"edit-article-#{article.id}\"]").click
+
+    update_article_attributes(attributes)
+    find('[data-test="update-article"]').click
+  end
+
+  def update_article_attributes(attributes)
+    attributes.each do |name, value|
+      find("[data-test=\"article-#{name}\"]").set value
+    end
+  end
+
+  def delete_article(article)
+    visit articles_url
+    find("[data-test=\"delete-article-#{article.id}\"]").click
   end
 end
